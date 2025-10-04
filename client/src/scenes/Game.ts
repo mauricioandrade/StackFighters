@@ -140,6 +140,10 @@ export default class Game extends Phaser.Scene {
       f.setVelocity(0)
       f.x = i===0? width*0.35 : width*0.65
       f.y = height-120
+      f.specialMeter = 0
+      f.state = 'idle'
+      f.block = false
+      f.setCrouch(false)
     })
   }
 
@@ -160,7 +164,8 @@ export default class Game extends Phaser.Scene {
     const dist = foe.x - me.x
     const dir = Math.sign(dist)
     me.setVelocityX(200*dir) // um pouco mais suave
-    if(Math.abs(dist)<80 && me.body.blocked.down){
+    const body = me.body as Phaser.Physics.Arcade.Body | null
+    if(Math.abs(dist)<80 && body?.blocked.down){
       me.attack(false)
     }
   }
